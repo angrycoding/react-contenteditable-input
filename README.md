@@ -12,3 +12,6 @@ Unfortunately making this "properly" took me about a week by itself so this wasn
 so it's more like "is this possible at all?".
 
 DEMO: https://angrycoding.github.io/react-contenteditable-input/
+
+
+![image](https://github.com/user-attachments/assets/89bc35b4-a164-495e-8c63-dcd8a10aff7c)
