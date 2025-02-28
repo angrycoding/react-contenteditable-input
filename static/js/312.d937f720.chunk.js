@@ -1,0 +1,2 @@
+(()=>{const e=function(t){if(!t)return;console.info("REMOVE",t.headers.get("curr")),this.delete(t.headers.get("curr")||"");const n=t.headers.get("next");this.match(n||"").then(e.bind(this))};self.onmessage=async t=>{try{const[n,s]=t.data;if(!n||!s)return;const c=await caches.open(n);if(!c)return;c.match(s).then(e.bind(c))}catch(n){}}})();
+//# sourceMappingURL=312.d937f720.chunk.js.map
