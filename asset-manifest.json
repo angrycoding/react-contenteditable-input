@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/react-contenteditable-input/static/css/main.31d6cfe0.css",
-    "main.js": "/react-contenteditable-input/static/js/main.d33ba470.js",
-    "static/js/556.64610715.chunk.js": "/react-contenteditable-input/static/js/556.64610715.chunk.js",
+    "main.js": "/react-contenteditable-input/static/js/main.e68b4d06.js",
+    "static/js/556.d382ae46.chunk.js": "/react-contenteditable-input/static/js/556.d382ae46.chunk.js",
     "static/js/312.d937f720.chunk.js": "/react-contenteditable-input/static/js/312.d937f720.chunk.js",
     "index.html": "/react-contenteditable-input/index.html",
-    "main.d33ba470.js.map": "/react-contenteditable-input/static/js/main.d33ba470.js.map",
-    "556.64610715.chunk.js.map": "/react-contenteditable-input/static/js/556.64610715.chunk.js.map",
+    "main.e68b4d06.js.map": "/react-contenteditable-input/static/js/main.e68b4d06.js.map",
+    "556.d382ae46.chunk.js.map": "/react-contenteditable-input/static/js/556.d382ae46.chunk.js.map",
     "312.d937f720.chunk.js.map": "/react-contenteditable-input/static/js/312.d937f720.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.31d6cfe0.css",
-    "static/js/main.d33ba470.js"
+    "static/js/main.e68b4d06.js"
   ]
 }
