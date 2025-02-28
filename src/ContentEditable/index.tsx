@@ -1,6 +1,5 @@
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId } from "react";
 import useUndoStack from "./useUndoStack";
-import './index.module.scss';
 
 
 const parseMarkdown = (() => {
@@ -32,33 +31,8 @@ const removeMarkdownTags = (parent: HTMLElement): HTMLElement => {
 	return parent;
 }
 
-const setCaretPos = (pos: DOMPoint) => {
 
-	
-
-	do {
-
-		// @ts-ignore
-		const start = document.caretPositionFromPoint(pos.x, pos.y);
-		if (!start) break;
-
-		const range = document.createRange();
-		range.setStart(start.offsetNode, start.offset);
-		// range.setEnd(start.offsetNode, start.offset);
-
-
-		const sel = window.getSelection();
-		if (!sel) break;
-		sel.removeAllRanges();
-		sel.addRange(range);
-
-
-	} while (0);
-
-
-
-}
-
+// obtain visual caret position on the screen
 const getCaretPos = (): DOMPoint => {
 	let result = new DOMPoint(0, 0);
 	do {
@@ -74,34 +48,35 @@ const getCaretPos = (): DOMPoint => {
 	return result;
 }
 
+// set caret position based on it's previously saved coordinates
+const setCaretPos = (pos: DOMPoint) => {
+	do {
+		// @ts-ignore
+		const start = document.caretPositionFromPoint(pos.x, pos.y);
+		if (!start) break;
+		const range = document.createRange();
+		range.setStart(start.offsetNode, start.offset);
+		const sel = window.getSelection();
+		if (!sel) break;
+		sel.removeAllRanges();
+		sel.addRange(range);
+	} while (0);
+}
 
 const ContentEditable: (props: React.HTMLProps<HTMLElement> & {
-	renderAs: string
-}) => any = ({ renderAs, ...props }) => {
+	renderAs?: string
+}) => any = ({
+	renderAs: TagName = 'div',
+	...props
+}) => {
 
 	const id = useId();
-	let [ x, setx ] = useState(false);
 	const undoStack = useUndoStack();
 
 
-	const onBeforeInput = async(event: InputEvent) => {
-		const { target: eventTarget } = event;
-		if (!(eventTarget instanceof HTMLElement)) return;
-		const target = document.querySelector(`*[data-id=${JSON.stringify(id)}]`);
-		if (!(target instanceof HTMLElement)) return;
-		if (!target.contains(eventTarget)) return;
-		if (!x) {
-			setx(x = true);
-			undoStack.push(target);
-		}
-	}
-
-	const onInput = async (event: any) => {
-		
+	const onInput = async(event: any) => {
 		const target = event.target;
 		if (!(target instanceof HTMLElement)) return;
-
-
 		const clone = target.cloneNode(true);
 		if (!(clone instanceof HTMLElement)) return;
 
@@ -109,12 +84,7 @@ const ContentEditable: (props: React.HTMLProps<HTMLElement> & {
 		
 
 		removeMarkdownTags(clone);
-
-
-		const result = await parseMarkdown(clone.innerHTML);
-
-		clone.innerHTML = result;
-
+		clone.innerHTML = await parseMarkdown(clone.innerHTML);
 
 		for (const item of Array.from(clone.querySelectorAll(':not(br)'))) {
 			if (item.hasAttribute('style')) {
@@ -122,28 +92,29 @@ const ContentEditable: (props: React.HTMLProps<HTMLElement> & {
 			}
 		}
 
-
+		// update innerHTML only if it changed
 		if (clone.innerHTML !== target.innerHTML) {
+			// save caret position
 			target.style.fontFamily = 'monospace';
 			const caretPos = getCaretPos();
+			// update html
 			target.innerHTML = clone.innerHTML;
+			// restore caret position
 			setCaretPos(caretPos)
 			target.style.fontFamily = '';
 		}
+
+		// update undo stack
 		undoStack.push(target);
-
-
-
-
 	}
 
-	const onKeyDown = async(e: React.KeyboardEvent) => {
-		const { target } = e;
+	// catch ctrl+z / ctrl+shift+z not sure how to handle
+	const onKeyDown = async(event: React.KeyboardEvent) => {
+		const { target } = event;
 		if (!(target instanceof HTMLElement)) return;
-
-		if (e.ctrlKey && e.code === 'KeyZ') {
-			e.preventDefault();
-			if (!e.shiftKey) {
+		if (event.ctrlKey && event.code === 'KeyZ') {
+			event.preventDefault();
+			if (!event.shiftKey) {
 				await undoStack.undo(target);
 			} else {
 				await undoStack.redo(target);
@@ -151,6 +122,19 @@ const ContentEditable: (props: React.HTMLProps<HTMLElement> & {
 		}
 	}
 
+	// init undo stack with the first value before first input
+	const onBeforeInput = async(event: InputEvent) => {
+		const { target: eventTarget } = event;
+		if (!(eventTarget instanceof HTMLElement)) return;
+		const target = document.querySelector(`*[data-id=${JSON.stringify(id)}]`);
+		if (!(target instanceof HTMLElement)) return;
+		if (!target.contains(eventTarget)) return;
+		undoStack.push(target);
+		document.removeEventListener('beforeinput', onBeforeInput);
+	}
+
+	// why not just <TagName onBeforeInput? because react is broken here somehow
+	// and doesn't catch backspace / del and so on
 	useEffect(() => {
 		document.addEventListener('beforeinput', onBeforeInput);
 		return () => {
@@ -158,7 +142,6 @@ const ContentEditable: (props: React.HTMLProps<HTMLElement> & {
 		}
 	}, []);
 
-	const TagName = (renderAs) as 'div'
 
 	return <TagName
 		{...props as any}
