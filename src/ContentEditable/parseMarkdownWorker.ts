@@ -1,5 +1,6 @@
 /* eslint-disable */
 
+
 const Tokenizer = class {
 
 	public input: string = '';
@@ -157,10 +158,6 @@ const parseMarkdown = (parsedHtml: string) => {
 
 
 self.onmessage = async(event: MessageEvent) => {
-	try {
-		const data = event.data;
-		const result = parseMarkdown(data);
-		await new Promise(r => setTimeout(r, 200))
-		self.postMessage(result);
-	} catch (e) {}
+	const data = event.data;
+	self.postMessage([data, parseMarkdown(data)]);
 };

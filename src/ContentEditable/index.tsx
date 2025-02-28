@@ -1,7 +1,6 @@
 import { useEffect, useId, useState } from "react";
 import useUndoStack from "./useUndoStack";
 import './index.module.scss';
-import getHTMLWithCaret from "./getHTMLWithCaret";
 
 
 const parseMarkdown = (() => {
@@ -11,7 +10,10 @@ const parseMarkdown = (() => {
 	return (input: string) => new Promise<string>(resolve => {
 
 		worker.onmessage = (event: MessageEvent) => {
-			resolve(event.data)
+			const [ originalInput, result ] = event.data;
+			if (input === originalInput) {
+				resolve(result);
+			}
 		}
 		
 		worker.postMessage(input)
@@ -73,8 +75,6 @@ const getCaretPos = (): DOMPoint => {
 }
 
 
-let mmm = false;
-
 const ContentEditable: (props: React.HTMLProps<HTMLElement> & {
 	renderAs: string
 }) => any = ({ renderAs, ...props }) => {
@@ -87,52 +87,13 @@ const ContentEditable: (props: React.HTMLProps<HTMLElement> & {
 	const onBeforeInput = async(event: InputEvent) => {
 		const { target: eventTarget } = event;
 		if (!(eventTarget instanceof HTMLElement)) return;
-
 		const target = document.querySelector(`*[data-id=${JSON.stringify(id)}]`);
 		if (!(target instanceof HTMLElement)) return;
-
 		if (!target.contains(eventTarget)) return;
-
-		// event.preventDefault();
-
-		// if (event.inputType === 'insertText')
-		// 	target.innerHTML = getHTMLWithCaret(target).replace(getHTMLWithCaret.CARET_PLACEHOLDER, event.data + "<span />" + getHTMLWithCaret.CARET_PLACEHOLDER);
-
-		// if (event.inputType === 'insertParagraph')
-		// 	target.innerHTML = getHTMLWithCaret(target).replace(getHTMLWithCaret.CARET_PLACEHOLDER, "<br />" + getHTMLWithCaret.CARET_PLACEHOLDER);
-
-
-			
-		// 			const walker = document.createTreeWalker(target, NodeFilter.SHOW_TEXT)
-		// 			while (walker.nextNode()) {
-		// 				const { currentNode } = walker;
-		// 				if (!(currentNode instanceof Text)) continue;
-		// 				const { textContent } = currentNode;
-		// 				if (textContent !== getHTMLWithCaret.CARET_PLACEHOLDER) continue;
-		// 				currentNode.deleteData(0, textContent.length);
-		// 				const range = document.createRange();
-		// 				range.setStart(currentNode, 0);
-		// 				const sel = window.getSelection();
-		// 				if (sel) {
-		// 					sel.removeAllRanges();
-		// 					sel.addRange(range);
-		// 				}
-		// 			}
-		
-
-		/*
-		
-if (mmm) {
-	event.preventDefault()
-	return;
-}
-
-
 		if (!x) {
 			setx(x = true);
 			undoStack.push(target);
 		}
-			*/
 	}
 
 	const onInput = async (event: any) => {
@@ -150,12 +111,9 @@ if (mmm) {
 		removeMarkdownTags(clone);
 
 
+		const result = await parseMarkdown(clone.innerHTML);
 
-
-		mmm = true;
-		clone.innerHTML = await parseMarkdown(clone.innerHTML);
-		console.info(x)
-		mmm = false;
+		clone.innerHTML = result;
 
 
 		for (const item of Array.from(clone.querySelectorAll(':not(br)'))) {
@@ -174,9 +132,6 @@ if (mmm) {
 		}
 		undoStack.push(target);
 
-
-
-		console.info(target.innerHTML)
 
 
 
