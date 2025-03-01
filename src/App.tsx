@@ -24,6 +24,12 @@ function App() {
 			</ContentEditable>
 		)}
 
+		<div><b>**bold**</b>, <s>~~strikethrough~~</s>, <i>_italic_</i>, <u>__underline__</u>, ||<span style={{'filter': 'blur(2px)', cursor: 'pointer'}} onMouseDown={e => {
+			if (e.target instanceof HTMLElement) {
+				e.target.style.filter = ''
+			}
+		}}>spoiler</span>||</div>
+
 		<button onClick={() => setRemove(true)}>REMOVE</button>
 
 	</div>

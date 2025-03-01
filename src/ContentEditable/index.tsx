@@ -86,7 +86,7 @@ const ContentEditable: (props: React.HTMLProps<HTMLElement> & {
 		removeMarkdownTags(clone);
 		clone.innerHTML = await parseMarkdown(clone.innerHTML);
 
-		for (const item of Array.from(clone.querySelectorAll(':not(br)'))) {
+		for (const item of Array.from(clone.querySelectorAll(':not(br):not(*[data-markdown])'))) {
 			if (item.hasAttribute('style')) {
 				item.removeAttribute('style');
 			}
@@ -99,6 +99,7 @@ const ContentEditable: (props: React.HTMLProps<HTMLElement> & {
 			const caretPos = getCaretPos();
 			// update html
 			target.innerHTML = clone.innerHTML;
+			console.info('html', target.innerHTML)
 			// restore caret position
 			setCaretPos(caretPos)
 			target.style.fontFamily = '';
