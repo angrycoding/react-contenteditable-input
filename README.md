@@ -7,6 +7,7 @@ markdown replacement, it becomes very complicated to patch your input with the e
 2. Supports markdown (```**bold**```, ```~~strikethroug~~```, ```_italic_```, ```__underline__```, ```||spoiler||```) 
 3. Markdown parsing done asynchronously using Web worker (so it will never freeze or block UI). Organizers was claming that parsing markdown using regexps sometimes freezes the browser or something like this, so in my attempt to check if this can be avoided at all, I've implemented completely async parsing in the WebWorker.
 4. Markdown supports nested tags, like ```**bold~~bold+strikethrough~~bold**```, properly handling ambiguities ```___italic underline___```
+5. Uses fork of https://github.com/cloudflare/html-rewriter-wasm to transform HTML (remove markdown html tags before parsing markdown)
 
 Done after participating in: https://t.me/contests/245417
 Unfortunately making this "properly" took me about a week by itself so this wasn't included into my submission, 
