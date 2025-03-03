@@ -1,14 +1,17 @@
 {
   "files": {
-    "main.js": "/react-contenteditable-input/static/js/main.de927e3b.js",
-    "static/js/556.d382ae46.chunk.js": "/react-contenteditable-input/static/js/556.d382ae46.chunk.js",
+    "main.js": "/react-contenteditable-input/static/js/main.ea1e945c.js",
+    "static/js/556.1d9e9627.chunk.js": "/react-contenteditable-input/static/js/556.1d9e9627.chunk.js",
     "static/js/312.d937f720.chunk.js": "/react-contenteditable-input/static/js/312.d937f720.chunk.js",
+    "static/js/70.5fbefa91.chunk.js": "/react-contenteditable-input/static/js/70.5fbefa91.chunk.js",
+    "static/media/html_rewriter_bg.wasm": "/react-contenteditable-input/static/media/html_rewriter_bg.ed66b9f28b0f118f915a.wasm",
     "index.html": "/react-contenteditable-input/index.html",
-    "main.de927e3b.js.map": "/react-contenteditable-input/static/js/main.de927e3b.js.map",
-    "556.d382ae46.chunk.js.map": "/react-contenteditable-input/static/js/556.d382ae46.chunk.js.map",
-    "312.d937f720.chunk.js.map": "/react-contenteditable-input/static/js/312.d937f720.chunk.js.map"
+    "main.ea1e945c.js.map": "/react-contenteditable-input/static/js/main.ea1e945c.js.map",
+    "556.1d9e9627.chunk.js.map": "/react-contenteditable-input/static/js/556.1d9e9627.chunk.js.map",
+    "312.d937f720.chunk.js.map": "/react-contenteditable-input/static/js/312.d937f720.chunk.js.map",
+    "70.5fbefa91.chunk.js.map": "/react-contenteditable-input/static/js/70.5fbefa91.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/main.de927e3b.js"
+    "static/js/main.ea1e945c.js"
   ]
 }
