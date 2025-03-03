@@ -124,15 +124,16 @@ const UndoStack = class {
 
 const useUndoStack = () => {
 
-	const undoStack = useState(() => new UndoStack)[0];
+	const undoStack = useState(() => new UndoStack())[0];
 
 	useEffect(() => {
+		
 
 		return () => {
 			undoStack.destroy();
 		}
 
-	}, []);
+	}, [ undoStack ]);
 
 	return undoStack
 

@@ -4,24 +4,12 @@
   "private": true,
   "homepage": "https://angrycoding.github.io/react-contenteditable-input",
   "dependencies": {
-    "@testing-library/dom": "^10.4.0",
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.2.0",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.5.2",
     "@types/node": "^16.18.126",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
-    "diff-dom": "^5.1.4",
     "react": "^19.0.0",
-    "react-contenteditable": "^3.3.7",
     "react-dom": "^19.0.0",
-    "react-scripts": "5.0.1",
-    "react-use-caret-position": "^1.1.0",
-    "sass": "^1.85.0",
-    "typescript": "5.2",
-    "uuid": "^11.1.0",
-    "web-vitals": "^2.1.4"
+    "uuid": "^11.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -50,6 +38,9 @@
   "devDependencies": {
     "customize-cra": "^1.0.0",
     "gh-pages": "^6.3.0",
-    "react-app-rewired": "^2.2.1"
+    "react-app-rewired": "^2.2.1",
+    "react-scripts": "5.0.1",
+    "sass": "^1.85.0",
+    "typescript": "5.2"
   }
 }
