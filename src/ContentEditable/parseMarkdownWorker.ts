@@ -1,3 +1,8 @@
+import {
+	Element,
+	HTMLRewriter,
+} from '@worker-tools/html-rewriter';
+
 const Tokenizer = class {
 
 	public input: string = '';
@@ -153,8 +158,12 @@ const parseMarkdown = (parsedHtml: string) => {
 
 }
 
+const rewriter = new HTMLRewriter().on("*[data-markdown]", {
+	element: (element: Element) => element.removeAndKeepContent()
+});
 
 onmessage = async(event: MessageEvent) => {
 	const data = event.data;
-	postMessage([data, parseMarkdown(data)]);
+	const output = await rewriter.transform(new Response(data)).text();
+	postMessage([data, parseMarkdown(output)]);
 };

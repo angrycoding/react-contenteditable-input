@@ -1,0 +1,9 @@
+{
+  "version": "v1",
+  "packages": {
+    "html-rewriter-wasm-web": {
+      "signature": "694ad3942fac9164d824d31f4f793930",
+      "file": true
+    }
+  }
+}

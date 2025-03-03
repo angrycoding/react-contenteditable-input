@@ -4,9 +4,7 @@
   "private": true,
   "homepage": "https://angrycoding.github.io/react-contenteditable-input",
   "dependencies": {
-    "@types/node": "^16.18.126",
-    "@types/react": "^19.0.10",
-    "@types/react-dom": "^19.0.4",
+    "@worker-tools/html-rewriter": "^0.1.0-pre.19",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "uuid": "^11.1.0"
@@ -36,9 +34,10 @@
     ]
   },
   "devDependencies": {
-    "customize-cra": "^1.0.0",
+    "@types/node": "^16.18.126",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
     "gh-pages": "^6.3.0",
-    "react-app-rewired": "^2.2.1",
     "react-scripts": "5.0.1",
     "sass": "^1.85.0",
     "typescript": "5.2"

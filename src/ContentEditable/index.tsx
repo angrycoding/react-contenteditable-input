@@ -21,17 +21,6 @@ const parseMarkdown = (() => {
 
 })();
 
-const removeMarkdownTags = (parent: HTMLElement): HTMLElement => {
-	let ctxNode = parent.querySelector('[data-markdown]');
-	while (ctxNode) {
-		if (!(ctxNode instanceof HTMLElement)) break;
-		ctxNode.replaceWith(...Array.from(ctxNode.childNodes));
-		ctxNode = parent.querySelector('[data-markdown]');
-	}
-	return parent;
-}
-
-
 // obtain visual caret position on the screen
 const getCaretPos = (): DOMPoint => {
 	let result = new DOMPoint(0, 0);
@@ -80,10 +69,6 @@ const ContentEditable: (props: React.HTMLProps<HTMLElement> & {
 		const clone = target.cloneNode(true);
 		if (!(clone instanceof HTMLElement)) return;
 
-
-		
-
-		removeMarkdownTags(clone);
 		clone.innerHTML = await parseMarkdown(clone.innerHTML);
 
 		for (const item of Array.from(clone.querySelectorAll(':not(br):not(*[data-markdown])'))) {
