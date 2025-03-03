@@ -71,21 +71,17 @@ const ContentEditable: (props: React.HTMLProps<HTMLElement> & {
 		.forEach(item => item.removeAttribute('style'));
 
 
-		const clone = target.cloneNode(true);
-		if (!(clone instanceof HTMLElement)) return;
-
-
-		clone.innerHTML = await parseMarkdown(clone.innerHTML);
+		const input = target.innerHTML;
+		const output = await parseMarkdown(input);
 
 
 		// update innerHTML only if it changed
-		if (clone.innerHTML !== target.innerHTML) {
+		if (input !== output) {
 			// save caret position
 			target.style.fontFamily = 'monospace';
 			const caretPos = getCaretPos();
 			// update html
-			target.innerHTML = clone.innerHTML;
-			console.info('html', target.innerHTML)
+			target.innerHTML = output;
 			// restore caret position
 			setCaretPos(caretPos)
 			target.style.fontFamily = '';
