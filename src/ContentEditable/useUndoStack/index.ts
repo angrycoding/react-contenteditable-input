@@ -1,8 +1,25 @@
 import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import getHTMLWithCaret from './getHTMLWithCaret';
 
 const UNDO_CACHE_PREFIX = 'UndoCache_';
+const CARET_PLACEHOLDER = '{{CARET}}';
+
+const getHTMLWithCaret = (element: HTMLElement): string => {
+	let result = element.innerHTML;
+	do try {
+		const selection = window.getSelection();
+		if (!selection || !selection.rangeCount) break;
+		const { anchorNode } = selection;
+		if (!anchorNode || !element.contains(anchorNode)) break;
+		const range = selection.getRangeAt(0);
+		const span = document.createElement('span');
+		span.innerText = CARET_PLACEHOLDER;
+		range.insertNode(span);
+		result = element.innerHTML;
+		span.remove();
+	} catch (e) {} while (0);
+	return result;
+}
 
 const generateId = (() => {
 	let counter = 0;
@@ -59,7 +76,7 @@ const UndoStack = class {
 			while (walker.nextNode()) {
 				const { currentNode } = walker;
 				if (!(currentNode instanceof Text)) continue;
-				if (currentNode.textContent !== getHTMLWithCaret.CARET_PLACEHOLDER) continue;
+				if (currentNode.textContent !== CARET_PLACEHOLDER) continue;
 				currentNode.deleteData(0, currentNode.textContent.length);
 				const range = document.createRange();
 				range.setStart(currentNode, 0);

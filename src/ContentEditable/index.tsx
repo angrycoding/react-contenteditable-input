@@ -53,7 +53,7 @@ const setCaretPos = (pos: DOMPoint) => {
 }
 
 const ContentEditable: (props: React.HTMLProps<HTMLElement> & {
-	renderAs?: string
+	renderAs?: keyof HTMLElementTagNameMap
 }) => any = ({
 	renderAs: TagName = 'div',
 	...props
