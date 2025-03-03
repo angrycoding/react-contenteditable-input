@@ -160,7 +160,7 @@ const parseMarkdown = (parsedHtml: string) => {
 
 const rewriter = new HTMLRewriter().on("*[data-markdown]", {
 	element: (element: Element) => element.removeAndKeepContent()
-});
+})
 
 onmessage = async(event: MessageEvent) => {
 	const data = event.data;

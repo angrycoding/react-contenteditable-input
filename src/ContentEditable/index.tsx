@@ -66,16 +66,17 @@ const ContentEditable: (props: React.HTMLProps<HTMLElement> & {
 	const onInput = async(event: any) => {
 		const target = event.target;
 		if (!(target instanceof HTMLElement)) return;
+
+		target.querySelectorAll('*[style]:not(*[data-markdown])')
+		.forEach(item => item.removeAttribute('style'));
+
+
 		const clone = target.cloneNode(true);
 		if (!(clone instanceof HTMLElement)) return;
 
+
 		clone.innerHTML = await parseMarkdown(clone.innerHTML);
 
-		for (const item of Array.from(clone.querySelectorAll(':not(br):not(*[data-markdown])'))) {
-			if (item.hasAttribute('style')) {
-				item.removeAttribute('style');
-			}
-		}
 
 		// update innerHTML only if it changed
 		if (clone.innerHTML !== target.innerHTML) {
